@@ -12,13 +12,15 @@ import Logo from "../../images/store-logo.jpg";
 import { FiShoppingCart } from "react-icons/fi";
 import { BiUserCircle } from "react-icons/bi";
 
-const Navbar = ({ user, toggle }) => {
+const Navbar = ({ user, toggle, transparent }) => {
   return (
     <>
-      <Nav>
-        <NavStart>
-          <NavP onClick={toggle}>Menu</NavP>
-        </NavStart>
+      <Nav transparent={transparent ? true : false}>
+        {toggle && (
+          <NavStart>
+            <NavP onClick={toggle}>Menu</NavP>
+          </NavStart>
+        )}
         <NavLogo>
           <NavLink to="/">
             <img src={Logo} alt="store-logo" />
@@ -35,7 +37,7 @@ const Navbar = ({ user, toggle }) => {
               </NavAuthLink>
             </>
           ) : (
-            <NavAuthLink>Log in</NavAuthLink>
+            <NavAuthLink to="/login">Log in</NavAuthLink>
           )}
         </NavEnd>
       </Nav>

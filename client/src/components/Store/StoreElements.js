@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StoreContainer = styled.div`
   display: grid;
-  grid-template-columns: 25% 75%;
+  grid-template-columns: minmax(20%, 300px) auto;
   background: #150f0f;
 `;
 
@@ -32,8 +32,8 @@ export const NextPageButton = styled.button`
 `;
 
 export const StorePanelContainer = styled.div`
-  flex-grow: 1;
-  padding-right: 5px;
+  padding-right: 10px;
+  max-width: 300px;
 `;
 
 export const PanelItemContainer = styled.div`
@@ -100,12 +100,9 @@ export const StoreProducsContainer = styled.div`
 export const StoreProductWrapper = styled.div`
   width: 100%;
   /* background: rgba(255, 255, 255, 0.75); */
-  background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.9),
-      rgba(255, 255, 255, 0.4)
-    ),
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4)),
     url(${(props) => props.img});
+  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -130,7 +127,9 @@ export const StoreProductPrice = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-export const StoreProductDataContainer = styled.div``;
+export const StoreProductDataContainer = styled.div`
+  color: #fff;
+`;
 
 export const StoreProductButton = styled.div`
   font-size: 1rem;
@@ -149,14 +148,16 @@ export const StoreProductButton = styled.div`
   }
 `;
 
-export const StoreProductItem = ({ product }) => {
+export const StoreProductItem = ({ product, addToCart }) => {
   return (
-    <StoreProductWrapper img={product.img}>
-      <StoreProductImg src={product.img} />
+    <StoreProductWrapper img={product.imgUrl}>
+      <StoreProductImg src={product.imgUrl} />
       <StoreProductDataContainer>
         <StoreProductTitle>{product.name}</StoreProductTitle>
-        <StoreProductPrice>{product.price}</StoreProductPrice>
-        <StoreProductButton>Add to cart</StoreProductButton>
+        <StoreProductPrice>{product.price} €</StoreProductPrice>
+        <StoreProductButton onClick={() => addToCart(product)}>
+          Add to cart
+        </StoreProductButton>
       </StoreProductDataContainer>
     </StoreProductWrapper>
   );

@@ -5,6 +5,10 @@ const loginUser = require("./loginUser");
 const updateUser = require("./updateUser");
 const createOrder = require("./createOrder");
 const updateOrder = require("./updateOrder");
+const setDiscountCodes = require("./setDiscountCodes");
+const setFilters = require("./setFilters");
+const setNewProducts = require("./SetNewProducts");
+const setCategories = require("./setCategories");
 
 module.exports = {
   createProduct,
@@ -14,4 +18,8 @@ module.exports = {
   updateUser,
   createOrder,
   updateOrder,
+  setDiscountCodes,
+  setFilters,
+  setNewProducts,
+  setCategories,
 };

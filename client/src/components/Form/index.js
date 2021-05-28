@@ -7,7 +7,7 @@ import {
   FormTitle,
 } from "./FormElements";
 
-const FormUser = () => {
+const FormUser = ({ login, signup }) => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,12 +16,16 @@ const FormUser = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log({ username, password });
+    login({ username, password });
   };
 
   const handleSignup = (e) => {
     e.preventDefault();
-    console.log({ name, username, password });
+    if (password === passwordCheck) {
+      signup({ name, username, password });
+    } else {
+      window.alert("Passwords dont match");
+    }
   };
 
   const loginForm = () => {

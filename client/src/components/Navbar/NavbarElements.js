@@ -1,8 +1,17 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+// export const NavOriginal = styled.div`
+//   background: transparent;
+//   height: 80px;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   font-weight: 700;
+// `;
+
 export const Nav = styled.div`
-  background: transparent;
+  background: ${(props) => (props.transparent ? `transparent` : `#150f0f`)};
   height: 80px;
   display: flex;
   justify-content: space-between;

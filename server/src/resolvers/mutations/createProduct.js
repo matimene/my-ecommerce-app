@@ -1,7 +1,8 @@
 const { ApolloError } = require("apollo-server");
 
 module.exports = async (_, args, { models }) => {
-  const { name, skuCode, description, category, price } = args.input;
+  const { name, skuCode, description, category, subCategories, price, imgUrl } =
+    args.input;
   console.log("args createproduct: ", args);
   try {
     const product = new models.Product({
@@ -9,6 +10,8 @@ module.exports = async (_, args, { models }) => {
       skuCode,
       description,
       category,
+      subCategories,
+      imgUrl,
       price,
       disable: false,
     });

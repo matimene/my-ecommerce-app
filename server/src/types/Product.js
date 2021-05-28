@@ -5,22 +5,11 @@ module.exports = gql`
     name: String!
     skuCode: String!
     description: String!
-    category: Categories!
+    category: String!
+    subCategories: [String]
+    imgUrl: String
     price: Float!
-    subCategory: [Subcategories]
     disable: Boolean
-  }
-
-  enum Categories {
-    BASIC
-    COMPLEX
-    ANYTHING
-  }
-
-  enum Subcategories {
-    subBASIC
-    subCOMPLEX
-    subANYTHING
   }
 
   type Product {
@@ -28,8 +17,9 @@ module.exports = gql`
     name: String!
     skuCode: String!
     description: String!
-    category: Categories!
-    subCategory: [Subcategories]
+    category: String!
+    subCategories: [String]
+    imgUrl: String
     price: Float!
     disable: Boolean
   }

@@ -14,9 +14,11 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  subCategory: {
-    type: String,
-  },
+  subCategories: [
+    {
+      type: String,
+    },
+  ],
   price: {
     type: Number,
     required: true,
@@ -26,11 +28,9 @@ const productSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  imgUrls: [
-    {
-      type: String,
-    },
-  ],
+  imgUrl: {
+    type: String,
+  },
   disable: {
     type: Boolean,
     default: false,

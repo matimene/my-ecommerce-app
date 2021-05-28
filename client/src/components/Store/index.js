@@ -1,4 +1,7 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
+import { PRODUCTS } from "../../queries";
+
 import {
   NextPageContainer,
   PanelItemContainer,
@@ -11,29 +14,17 @@ import {
   NextPageButton,
   StoreProductItem,
 } from "./StoreElements";
-import ProductCard from "../ProductCard";
-import ProductImg from "../../images/product-2.jpg";
-import ProductImg2 from "../../images/product-1.jpg";
-import ProductImg3 from "../../images/product-3.jpg";
 
 const Store = () => {
-  const products = [
-    { img: ProductImg, name: "Pizza", price: 9.95 },
-    { img: ProductImg2, name: "Pizza", price: 9.95 },
-    { img: ProductImg3, name: "Pizza", price: 9.95 },
-    { img: ProductImg, name: "Pizza", price: 9.95 },
-    { img: ProductImg2, name: "Pizza", price: 9.95 },
-    { img: ProductImg3, name: "Pizza", price: 9.95 },
-    { img: ProductImg, name: "Pizza", price: 9.95 },
-    { img: ProductImg2, name: "Pizza", price: 9.95 },
-    { img: ProductImg, name: "Pizza", price: 9.95 },
-    { img: ProductImg3, name: "Pizza", price: 9.95 },
-    { img: ProductImg, name: "Pizza", price: 9.95 },
-    { img: ProductImg2, name: "Pizza", price: 9.95 },
-    { img: ProductImg, name: "Pizza", price: 9.95 },
-    { img: ProductImg3, name: "Pizza", price: 9.95 },
-    { img: ProductImg2, name: "Pizza", price: 9.95 },
-  ];
+  const result = useQuery(PRODUCTS);
+
+  if (result.loading) {
+    return <div>loading...</div>;
+  }
+
+  const addToCart = (product) => {
+    console.log(product);
+  };
 
   return (
     <>
@@ -62,8 +53,8 @@ const Store = () => {
           </PanelItemContainer>
         </StorePanelContainer>
         <StoreProducsContainer>
-          {products.map((p, i) => (
-            <StoreProductItem key={i} product={p} />
+          {result.data.products.map((p, i) => (
+            <StoreProductItem key={i} product={p} addToCart={addToCart} />
           ))}
         </StoreProducsContainer>
       </StoreContainer>
