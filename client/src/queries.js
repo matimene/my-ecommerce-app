@@ -36,3 +36,18 @@ export const CREATE_USER = gql`
     }
   }
 `;
+
+export const STORE_CONFIG = gql`
+  query {
+    store {
+      newProducts {
+        name
+        price
+        imgUrl
+        id
+      }
+      categories
+      filters
+    }
+  }
+`;

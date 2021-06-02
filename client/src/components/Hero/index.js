@@ -12,7 +12,7 @@ import {
 import { useHistory } from "react-router-dom";
 import ImgBg from "../../images/store-hero.jpg";
 
-const Hero = () => {
+const Hero = ({ token }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   let history = useHistory();
 
@@ -22,7 +22,7 @@ const Hero = () => {
 
   return (
     <HeroContainer img={ImgBg}>
-      <Navbar transparent toggle={toggleSidebar} />
+      <Navbar token={token} transparent toggle={toggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} toggle={toggleSidebar} />
       <HeroContent>
         <HeroItems>

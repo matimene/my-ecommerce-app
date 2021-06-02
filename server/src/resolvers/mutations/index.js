@@ -9,6 +9,7 @@ const setDiscountCodes = require("./setDiscountCodes");
 const setFilters = require("./setFilters");
 const setNewProducts = require("./SetNewProducts");
 const setCategories = require("./setCategories");
+const createStoreConfig = require("./createStoreConfig");
 
 module.exports = {
   createProduct,
@@ -22,4 +23,5 @@ module.exports = {
   setFilters,
   setNewProducts,
   setCategories,
+  createStoreConfig,
 };

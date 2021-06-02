@@ -2,10 +2,12 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const storeSchema = new mongoose.Schema({
-  newProducts: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-  },
+  newProducts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
   categories: [
     {
       type: String,

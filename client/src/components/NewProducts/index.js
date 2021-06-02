@@ -1,22 +1,25 @@
 import React from "react";
-import ProductCard from "../ProductCard";
 import {
   NewProductsTitle,
   NewProductsTitleContainer,
+  NewProductsContainer,
+  NewProductsWrapper,
 } from "./NewProductsElements";
-import { ProductsContainer } from "../ProductCard/ProductCardElements";
+import { StoreProductItem } from "../Store/StoreElements";
 
-const NewProducts = ({ products }) => {
+const NewProducts = ({ products, addToCart }) => {
   return (
     <>
       <NewProductsTitleContainer>
-        <NewProductsTitle>New products</NewProductsTitle>
+        <NewProductsTitle>NEW PRODUCTS</NewProductsTitle>
       </NewProductsTitleContainer>
-      <ProductsContainer>
+      <NewProductsContainer>
         {products.map((p, i) => (
-          <ProductCard key={i} product={p} />
+          <NewProductsWrapper key={i}>
+            <StoreProductItem product={p} addToCart={() => addToCart(p)} />
+          </NewProductsWrapper>
         ))}
-      </ProductsContainer>
+      </NewProductsContainer>
     </>
   );
 };

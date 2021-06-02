@@ -2,10 +2,10 @@ const { gql } = require("apollo-server");
 
 module.exports = gql`
   type Store {
-    newProducts: Product!
+    newProducts: [Product!]!
     categories: [String!]!
     filters: [String!]!
-    discountCodes: String
+    discountCodes: [String]
   }
 
   input NewProductsInput {
@@ -24,11 +24,19 @@ module.exports = gql`
     discountCodes: [String]!
   }
 
+  input CreateStoreInput {
+    newProducts: [String]
+    categories: [String]
+    filters: [String]
+    discountCodes: [String]
+  }
+
   extend type Query {
-    storeData: Store
+    store: Store!
   }
 
   extend type Mutation {
+    createStoreConfig(input: CreateStoreInput): Store!
     setNewProducts(input: NewProductsInput): Store!
     setCategories(input: CategoriesInput): Store!
     setFilters(input: FiltersInput): Store!

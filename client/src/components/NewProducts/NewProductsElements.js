@@ -14,3 +14,21 @@ export const NewProductsTitle = styled.h2`
   color: #fff;
   text-align: center;
 `;
+
+export const NewProductsContainer = styled.div`
+  background: #150f0f;
+  color: #fff;
+  display: flex;
+  flex-direction: space-between;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+`;
+
+export const NewProductsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 5px;
+  max-width: 300px;
+`;

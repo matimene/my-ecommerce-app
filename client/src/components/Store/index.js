@@ -15,16 +15,12 @@ import {
   StoreProductItem,
 } from "./StoreElements";
 
-const Store = () => {
+const Store = ({ addToCart, categories, filters }) => {
   const result = useQuery(PRODUCTS);
 
   if (result.loading) {
     return <div>loading...</div>;
   }
-
-  const addToCart = (product) => {
-    console.log(product);
-  };
 
   return (
     <>
@@ -32,24 +28,20 @@ const Store = () => {
         <StorePanelContainer>
           <PanelItemContainer>
             <PanelHeader>Menu</PanelHeader>
-            <PanelCategory>Pizzas</PanelCategory>
-            <PanelCategory>Deserts</PanelCategory>
+            {categories.map((c, i) => (
+              <PanelCategory key={i}>{c}</PanelCategory>
+            ))}
             <PanelCategory>All</PanelCategory>
           </PanelItemContainer>
           <PanelItemContainer>
             <PanelHeader>Filter by</PanelHeader>
-            <PanelFilterCategoryElement
-              setFilter={console.log}
-              value={"cheese"}
-            />
-            <PanelFilterCategoryElement
-              setFilter={console.log}
-              value={"chocolate"}
-            />
-            <PanelFilterCategoryElement
-              setFilter={console.log}
-              value={"lube"}
-            />
+            {filters.map((f, i) => (
+              <PanelFilterCategoryElement
+                key={i}
+                setFilter={console.log}
+                value={f}
+              />
+            ))}
           </PanelItemContainer>
         </StorePanelContainer>
         <StoreProducsContainer>

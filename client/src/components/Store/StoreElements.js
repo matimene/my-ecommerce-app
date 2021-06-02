@@ -51,6 +51,7 @@ export const PanelHeader = styled.div`
 `;
 
 export const PanelCategory = styled.div`
+  text-transform: capitalize;
   &:hover {
     background: #ffc500;
     transition: 0.2s ease-out;

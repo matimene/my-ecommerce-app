@@ -37,3 +37,10 @@ export const NavLogo = styled.div`
   cursor: pointer;
   color: #fff;
 `;
+
+export const LoginText = styled.div`
+  color: #fff;
+  font-size: 2rem;
+  align-items: center;
+  text-align: center;
+`;

@@ -12,8 +12,8 @@ const ProductCardItem = ({ product }) => {
   return (
     <ProductWrapper>
       <ProductCard>
-        <ProductImg src={product.img} />
-        <ProductTitle>{product.title}</ProductTitle>
+        <ProductImg src={product.imgUrl} />
+        <ProductTitle>{product.name}</ProductTitle>
         <ProductPrice>${product.price}</ProductPrice>
         <ProductButton>Add to cart</ProductButton>
       </ProductCard>
