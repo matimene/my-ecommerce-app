@@ -9,7 +9,7 @@ module.exports = {
   },
   total: async (root, args, { models }) => {
     const totalPrice = root.items
-      .map((i) => i.quantity * i.product.price)
+      .map((i) => i.quantity * i.price)
       .reduce((a, b) => a + b, 0);
     return totalPrice;
   },

@@ -13,10 +13,10 @@ const orderSchema = new mongoose.Schema(
     },
     items: [
       {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-        },
+        id: { type: String, required: true },
+        name: { type: String, required: true },
+        skuCode: { type: String, required: true },
+        price: { type: Number, required: true },
         quantity: { type: Number, required: true },
       },
     ],

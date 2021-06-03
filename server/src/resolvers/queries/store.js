@@ -3,10 +3,11 @@ module.exports = async (_, {}, { models, currentUser }) => {
     return await models.Store.findOne({ _id: "60b54b0726dffe0dcc3f5065" })
       .populate("newProducts")
       .exec();
+  } else {
+    let store = await models.Store.findOne({ _id: "60b54b0726dffe0dcc3f5065" })
+      .populate("newProducts")
+      .exec();
+    delete store.discountCodes;
+    return store;
   }
-  let store = await models.Store.findOne({ _id: "60b54b0726dffe0dcc3f5065" })
-    .populate("newProducts")
-    .exec();
-  delete store.discountCodes;
-  return store;
 };

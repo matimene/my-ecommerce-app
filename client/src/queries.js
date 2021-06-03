@@ -51,3 +51,24 @@ export const STORE_CONFIG = gql`
     }
   }
 `;
+
+export const ME = gql`
+  query {
+    me {
+      info {
+        name
+        adress
+        phone
+      }
+      orders {
+        items {
+          name
+          price
+          quantity
+        }
+        total
+        status
+      }
+    }
+  }
+`;

@@ -1,8 +1,19 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
+import { ME } from "../../queries";
 
 const UserSettings = () => {
+  const result = useQuery(ME);
+
+  if (result.loading) {
+    return <div>loading...</div>;
+  }
+
+  console.log(result.data);
+
   return (
     <div>
+      <button>logout</button>
       <h1>Your settings</h1>
       <div>
         <div>

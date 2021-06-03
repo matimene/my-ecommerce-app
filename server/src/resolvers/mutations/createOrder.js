@@ -6,14 +6,20 @@ module.exports = async (_, args, { currentUser, models }) => {
   }
 
   let { notes, items } = args.input;
-  //items should come in the form of [{id: ID!, quantity: Int}] from the frontend
-  const productsArr = await models.Product.find();
-  let populatedItems = items.map((i) => {
-    return {
-      quantity: i.quantity,
-      product: productsArr.find((p) => p.id === i.id),
-    };
-  });
+
+  const cartItems = await Promise.all(
+    items.map(async (item) => {
+      const product = await models.Product.findById(item.id).exec();
+
+      return {
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        skuCode: product.skuCode,
+        quantity: item.quantity,
+      };
+    })
+  );
 
   const deliveryInfo = args.input.deliveryInfo
     ? args.input.deliveryInfo
@@ -22,12 +28,17 @@ module.exports = async (_, args, { currentUser, models }) => {
   try {
     const order = new models.Order({
       hasUser: currentUser._id,
-      items: populatedItems,
+      items: cartItems,
       deliveryInfo,
       notes,
     });
+
     await order.save();
-    console.log(order);
+
+    currentUser.orders = currentUser.orders.concat(order);
+
+    await currentUser.save();
+
     return order.populate("hasUser").execPopulate();
   } catch (e) {
     throw new ApolloError(e);

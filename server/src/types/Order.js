@@ -8,7 +8,10 @@ module.exports = gql`
   }
 
   type CartItem {
-    product: Product!
+    id: String!
+    skuCode: String!
+    name: String!
+    price: Float!
     quantity: Int!
   }
 
@@ -33,7 +36,7 @@ module.exports = gql`
 
   input CreateOrderInput {
     items: [CartItemInput!]!
-    deliveryInfo: AdressInput!
+    deliveryInfo: AdressInput
     notes: String
   }
 
