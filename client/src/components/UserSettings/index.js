@@ -1,42 +1,70 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { ME } from "../../queries";
+import {
+  UserSettingsLogoutButton,
+  UserSettingsLogoutButtonContainer,
+  UserSettingsPageContainer,
+  UserSettingsContainer,
+  UserSettingsLabel,
+  UserSettingsInput,
+  UserSettingsSaveButton,
+  UserSettingsH1,
+  OrdersContainer,
+  OrderContainer,
+} from "./UserSettingsElements";
 
-const UserSettings = () => {
-  const result = useQuery(ME);
+const UserSettings = ({ logout }) => {
+  const { loading, data } = useQuery(ME);
 
-  if (result.loading) {
+  if (loading) {
     return <div>loading...</div>;
   }
 
-  console.log(result.data);
+  console.log(data);
+  const { info, orders } = data.me;
 
   return (
-    <div>
-      <button>logout</button>
-      <h1>Your settings</h1>
-      <div>
-        <div>
-          <label>Name</label>
-          <input />
-        </div>
-        <div>
-          <label>Adress</label>
-          <input />
-        </div>
-        <div>
-          <label>Phone</label>
-          <input />
-        </div>
-        <button>Save</button>
-      </div>
-      <h2>orders</h2>
-      <div>
-        <div>DATE: 22/03/2021</div>
-        <div>Pizza Prosciutto x2</div>
-        <div>TOTAL: 21.97€</div>
-      </div>
-    </div>
+    <UserSettingsPageContainer>
+      <UserSettingsLogoutButtonContainer>
+        <UserSettingsLogoutButton onClick={() => logout()}>
+          logout
+        </UserSettingsLogoutButton>
+      </UserSettingsLogoutButtonContainer>
+      <UserSettingsContainer>
+        <UserSettingsH1>Your settings</UserSettingsH1>
+        <UserSettingsLabel>Name</UserSettingsLabel>
+        <UserSettingsInput placeholder={info.name} />
+        <UserSettingsLabel>Adress</UserSettingsLabel>
+        <UserSettingsInput placeholder={info.adress} />
+        <UserSettingsLabel>Phone</UserSettingsLabel>
+        <UserSettingsInput placeholder={info.phone} />
+        <UserSettingsLabel>New Password</UserSettingsLabel>
+        <UserSettingsInput placeholder="Only if you want to change it" />
+        <UserSettingsInput placeholder="Repeat it" />
+        <UserSettingsLabel>Password</UserSettingsLabel>
+        <UserSettingsInput placeholder="Enter current password to continue" />
+        <UserSettingsSaveButton>Save changes</UserSettingsSaveButton>
+      </UserSettingsContainer>
+      <UserSettingsH1>orders</UserSettingsH1>
+      <OrdersContainer>
+        {orders.map((order, i) => {
+          return (
+            <OrderContainer key={i}>
+              <div>STATUS: {order.status}</div>
+              {order.items.map((item, i) => {
+                return (
+                  <div key={i}>
+                    {item.name} x {item.quantity}
+                  </div>
+                );
+              })}
+              <div>TOTAL: {order.total} €</div>
+            </OrderContainer>
+          );
+        })}
+      </OrdersContainer>
+    </UserSettingsPageContainer>
   );
 };
 

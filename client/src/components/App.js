@@ -60,7 +60,7 @@ const App = () => {
           </Route>
           <Route path="/settings">
             <Navbar token={token} bgImg={NavbarBgImg} />
-            <UserSettings />
+            <UserSettings logout={logout} />
           </Route>
           <Route path="/cart">
             <Navbar token={token} bgImg={NavbarBgImg} />

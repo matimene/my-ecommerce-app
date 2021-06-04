@@ -55,19 +55,20 @@ export const STORE_CONFIG = gql`
 export const ME = gql`
   query {
     me {
+      username
       info {
         name
         adress
         phone
       }
       orders {
+        status
+        total
         items {
           name
           price
           quantity
         }
-        total
-        status
       }
     }
   }
