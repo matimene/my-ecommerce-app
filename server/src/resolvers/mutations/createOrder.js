@@ -7,6 +7,7 @@ module.exports = async (_, args, { currentUser, models }) => {
 
   let { notes, items } = args.input;
 
+  //ITEMS SHOULD COME IN THE FORM OF [{id: ID!, quantity: Int}] from the frontend
   const cartItems = await Promise.all(
     items.map(async (item) => {
       const product = await models.Product.findById(item.id).exec();

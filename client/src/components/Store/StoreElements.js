@@ -4,36 +4,22 @@ export const StoreContainer = styled.div`
   display: grid;
   grid-template-columns: minmax(20%, 300px) auto;
   background: #150f0f;
-`;
 
-export const NextPageContainer = styled.div`
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  background: #150f0f;
-  color: #fff;
-  margin: auto;
-`;
-
-export const NextPageButton = styled.button`
-  width: 25px;
-  height: 25px;
-  background: #ffc500;
-  cursor: pointer;
-  color: #000;
-  border: none;
-  margin: 1px;
-  &:hover {
-    background: #e31837;
-    transition: 0.2s ease-out;
-    cursor: pointer;
-    color: #000;
+  @media screen and (max-width: 650px) {
+    display: flex;
+    flex-direction: column;
   }
 `;
 
 export const StorePanelContainer = styled.div`
   padding-right: 10px;
   max-width: 300px;
+
+  @media screen and (max-width: 650px) {
+    display: flex;
+    flex-direction: row;
+    max-width: none;
+  }
 `;
 
 export const PanelItemContainer = styled.div`
@@ -42,6 +28,9 @@ export const PanelItemContainer = styled.div`
   margin: 10px;
   font-size: 1.2rem;
   color: #fff;
+
+  @media screen and (max-width: 650px) {
+  }
 `;
 
 export const PanelHeader = styled.div`
@@ -50,13 +39,24 @@ export const PanelHeader = styled.div`
   font-size: 2rem;
 `;
 
-export const PanelCategory = styled.div`
+export const PanelStoreFilter = styled.div`
   text-transform: capitalize;
   &:hover {
     background: #ffc500;
     transition: 0.2s ease-out;
     cursor: pointer;
     color: #000;
+  }
+`;
+export const PanelStoreFilterAll = styled.div`
+  text-transform: capitalize;
+  background: #ffc500;
+  color: #000;
+  &:hover {
+    transition: 0.2s ease-out;
+    cursor: pointer;
+    background: #e31837;
+    color: #fff;
   }
 `;
 
@@ -70,24 +70,10 @@ const PanelFilterCategory = styled.div`
   }
 `;
 
-export const PanelFilterCategoryElement = ({ setFilter, value }) => {
-  return (
-    <PanelFilterCategory>
-      <input type="checkbox" onClick={() => setFilter(value)} />
-      {value}
-    </PanelFilterCategory>
-  );
-};
-
-// export const StoreProducsContainer = styled.div`
-//   flex-grow: 3;
-//   margin: 5px;
-//   display: flex;
-//   flex-direction: space-between;
-//   align-content: space-between;
-//   flex-wrap: wrap;
-//   color: #fff;
-// `;
+export const StoreContentContainer = styled.div`
+  display: grid;
+  flex-direction: column;
+`;
 
 export const StoreProducsContainer = styled.div`
   margin: 5px;
@@ -148,6 +134,40 @@ export const StoreProductButton = styled.div`
     color: #000;
   }
 `;
+
+export const NextPageContainer = styled.div`
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  background: #150f0f;
+  color: #fff;
+  margin: auto;
+`;
+
+export const NextPageButton = styled.button`
+  width: 25px;
+  height: 25px;
+  background: #ffc500;
+  cursor: pointer;
+  color: #000;
+  border: none;
+  margin: 1px;
+  &:hover {
+    background: #e31837;
+    transition: 0.2s ease-out;
+    cursor: pointer;
+    color: #000;
+  }
+`;
+
+export const PanelFilterCategoryElement = ({ showFilteredProducts, value }) => {
+  return (
+    <PanelFilterCategory>
+      <input type="checkbox" onClick={() => showFilteredProducts(value)} />
+      {value}
+    </PanelFilterCategory>
+  );
+};
 
 export const StoreProductItem = ({ product, addToCart }) => {
   return (

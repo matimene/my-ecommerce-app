@@ -16,6 +16,22 @@ export const PRODUCTS = gql`
   }
 `;
 
+export const FILTERED_PRODUCTS = gql`
+  query products($filter: String) {
+    products(filter: $filter) {
+      name
+      skuCode
+      description
+      category
+      subCategories
+      imgUrl
+      price
+      disable
+      id
+    }
+  }
+`;
+
 export const LOGIN_USER = gql`
   mutation loginUser($username: String!, $password: String!) {
     loginUser(input: { username: $username, password: $password }) {
@@ -70,6 +86,61 @@ export const ME = gql`
           quantity
         }
       }
+    }
+  }
+`;
+
+export const UPDATE_ORDER_STATUS = gql`
+  mutation updateOrder($status: String!) {
+    updateOrder(status: $status) {
+      status
+      total
+      items {
+        name
+        price
+        quantity
+      }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation updateUser(
+    $password: String!
+    $name: String!
+    $adress: String!
+    $phone: String!
+    $newPassword: String
+  ) {
+    updateUser(
+      input: {
+        password: $password
+        name: $name
+        adress: $adress
+        phone: $phone
+        newPassword: $newPassword
+      }
+    ) {
+      info {
+        name
+        adress
+        phone
+      }
+    }
+  }
+`;
+
+export const CREATE_ORDER = gql`
+  mutation createOrder(
+    $items: [CartItemInput!]!
+    $deliveryInfo: AdressInput
+    $notes: String
+  ) {
+    createOrder(
+      input: { items: $items, deliveryInfo: $deliveryInfo, notes: $notes }
+    ) {
+      id
+      total
     }
   }
 `;

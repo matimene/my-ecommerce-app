@@ -8,6 +8,7 @@ export const UserSettingsLogoutButton = styled.button`
   color: #fff;
   transition: 0.2s ease-out;
   text-transform: uppercase;
+  margin-bottom: 10px;
 
   &:hover {
     background: #ffc500;
@@ -87,8 +88,38 @@ export const OrderContainer = styled.div`
   flex-direction: column;
   height: auto;
   width: 250px;
-  border: 1px solid;
-  border-color: grey;
+  border: 2px solid;
+  border-color: ${(props) => {
+    switch (props.status) {
+      case "PENDING":
+        return "grey";
+      case "SHIPPED":
+        return "#ffc500";
+      case "CANCELED":
+      case "COMPLETED":
+        return "green";
+      default:
+        return "grey";
+    }
+  }};
   padding: 5px 10px;
   margin: 10px 5px;
+`;
+
+export const OrderStatusDiv = styled.div`
+  color: ${(props) => {
+    switch (props.status) {
+      case "PENDING":
+        return "grey";
+      case "SHIPPED":
+        return "#ffc500";
+      case "CANCELED":
+        return "red";
+      case "COMPLETED":
+        return "green";
+      default:
+        return "grey";
+    }
+  }};
+  font-size: 1.2rem;
 `;

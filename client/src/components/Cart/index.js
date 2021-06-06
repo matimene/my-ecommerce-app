@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useMutation, useQuery } from "@apollo/client";
+import { CREATE_ORDER, ME } from "../../queries";
+
 import {
   CartContainer,
   CartTable,
@@ -12,11 +16,18 @@ import {
   CartTableHeaderCentered,
   OrderPlaced,
 } from "./CartElements";
-import { useHistory } from "react-router-dom";
 
 const Cart = ({ cart, setCart }) => {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const history = useHistory();
+
+  const { data, loading } = useQuery(ME);
+  const [createOrder] = useMutation(CREATE_ORDER, {
+    refetchQueries: [{ query: ME }],
+    onError: (error) => {
+      window.alert(error.graphQLErrors[0].message);
+    },
+  });
 
   const getTotalPrice = () => {
     const total = cart
@@ -25,14 +36,39 @@ const Cart = ({ cart, setCart }) => {
     return Math.round(total * 100) / 100;
   };
 
-  const placeOrder = () => {
-    if (cart.length) {
-      setOrderPlaced(true);
-      setCart([]);
-      setTimeout(function () {
-        history.push("/");
-      }, 2500);
+  const placeOrder = async () => {
+    if (cart.length !== 0) {
+      const { info } = data.me;
+      const { adress, name, phone } = info;
+
+      if (!adress || !name || !phone) {
+        return window.alert("COMPLETE YOUR DELIVERY INFO ON USER SETTINGS");
+      }
+
+      try {
+        await createOrder({
+          variables: {
+            items: cart.map((product) => ({
+              id: product.id,
+              quantity: product.quantity,
+            })),
+          },
+        });
+        setOrderPlaced(true);
+        setCart([]);
+        setTimeout(function () {
+          history.push("/settings");
+        }, 2500);
+      } catch (e) {
+        window.alert(e);
+      }
     }
+  };
+
+  const renderSecondStep = () => {};
+
+  const filterCart = (id) => {
+    setCart([...cart].filter((product) => product.id !== id));
   };
 
   if (orderPlaced) return <OrderPlaced>¡Order sucessfully placed!</OrderPlaced>;
@@ -58,7 +94,9 @@ const Cart = ({ cart, setCart }) => {
                   <CartTableCellCentered>{p.quantity} u.</CartTableCellCentered>
                   <CartTableCell>
                     <CartButtonContainer>
-                      <CartDeleteItemButton>x</CartDeleteItemButton>
+                      <CartDeleteItemButton onClick={() => filterCart(p.id)}>
+                        x
+                      </CartDeleteItemButton>
                     </CartButtonContainer>
                   </CartTableCell>
                 </tr>

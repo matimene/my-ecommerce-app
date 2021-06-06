@@ -25,7 +25,7 @@ module.exports = gql`
   }
 
   extend type Query {
-    products: [Product]
+    products(filter: String): [Product]
   }
 
   extend type Mutation {

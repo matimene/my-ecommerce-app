@@ -11,6 +11,6 @@ module.exports = {
     const totalPrice = root.items
       .map((i) => i.quantity * i.price)
       .reduce((a, b) => a + b, 0);
-    return totalPrice;
+    return Math.round(totalPrice * 100) / 100;
   },
 };

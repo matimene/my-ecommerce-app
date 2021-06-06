@@ -50,7 +50,7 @@ module.exports = gql`
 
   extend type Mutation {
     createUser(input: CreateUserInput): User!
-    updateUser(id: ID!, input: UpdateUserInput): User!
+    updateUser(input: UpdateUserInput): User!
     loginUser(input: LoginUserInput): Token
   }
 `;

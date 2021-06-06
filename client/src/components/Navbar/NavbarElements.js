@@ -1,15 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-// export const NavOriginal = styled.div`
-//   background: transparent;
-//   height: 80px;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   font-weight: 700;
-// `;
-
 export const Nav = styled.div`
   background: ${(props) => (props.transparent ? `transparent` : `#150f0f`)};
   height: 80px;
@@ -32,6 +23,13 @@ export const NavStart = styled.div`
   float: left;
 `;
 
+export const NavImgLogo = styled.img`
+  position: absolute;
+  left: 50%;
+  margin-left: -115px !important; /* 50% of logo width */
+  display: block;
+`;
+
 export const NavEnd = styled.div`
   float: right;
   display: flex;
@@ -44,6 +42,7 @@ export const NavLink = styled(Link)`
   text-decoration: none;
   cursor: pointer;
   padding: 10px;
+  align-items: center;
 `;
 
 export const NavAuthLink = styled(Link)`

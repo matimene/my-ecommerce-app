@@ -7,10 +7,10 @@ module.exports = async (_, args, { currentUser, models }) => {
     throw new AuthenticationError("not authenticated");
   }
 
-  const { password } = args.input;
+  const { name, adress, phone, newPassword, password } = args.input;
 
   const passwordCorrect =
-    user === null
+    currentUser === null
       ? false
       : await bcrypt.compare(password, currentUser.passwordHash);
 
@@ -19,16 +19,11 @@ module.exports = async (_, args, { currentUser, models }) => {
   }
 
   try {
-    const {
+    currentUser.info = {
       name,
       adress,
       phone,
-      newPassword,
-    } = (args.input.currentUser.info = {
-      name,
-      adress,
-      phone,
-    });
+    };
 
     if (newPassword) {
       const newPasswordHash = await bcrypt.hash(newPassword, 10);

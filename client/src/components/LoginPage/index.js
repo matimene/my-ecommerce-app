@@ -16,17 +16,13 @@ import ImgBg from "../../images/store-hero.jpg";
 import Logo from "../../images/store-logo.jpg";
 
 const LoginPage = ({ token, setToken }) => {
+  const history = useHistory();
+
   const [loginUser, resultLogin] = useMutation(LOGIN_USER, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message);
     },
   });
-  const [createUser, resultSignup] = useMutation(CREATE_USER, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message);
-    },
-  });
-  const history = useHistory();
 
   useEffect(() => {
     if (resultLogin.data) {
@@ -39,10 +35,6 @@ const LoginPage = ({ token, setToken }) => {
   const handleLogin = async ({ username, password }) => {
     await loginUser({ variables: { username, password } });
     history.push("/");
-  };
-
-  const handleSignup = async ({ name, username, password }) => {
-    await createUser({ variables: { name, username, password } });
   };
 
   return (
@@ -59,7 +51,7 @@ const LoginPage = ({ token, setToken }) => {
           {token ? (
             <LoginText>You're already logged in</LoginText>
           ) : (
-            <Form login={handleLogin} signup={handleSignup} />
+            <Form login={handleLogin} />
           )}
         </LoginFormContainer>
       </LoginPageContainer>

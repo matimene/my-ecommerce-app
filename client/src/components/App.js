@@ -28,7 +28,7 @@ const App = () => {
   }, []);
 
   if (result.loading) {
-    return <div>loading...</div>;
+    return null;
   }
 
   const logout = () => {
@@ -69,6 +69,14 @@ const App = () => {
           <Route path="/login">
             <LoginPage token={token} setToken={setToken} />
           </Route>
+          <Route path="/store/:filter">
+            <Navbar token={token} bgImg={NavbarBgImg} />
+            <Store
+              addToCart={addToCart}
+              categories={categories}
+              filters={filters}
+            />
+          </Route>
           <Route path="/store">
             <Navbar token={token} bgImg={NavbarBgImg} />
             <Store
@@ -78,7 +86,7 @@ const App = () => {
             />
           </Route>
           <Route path="/">
-            <Hero token={token} />
+            <Hero token={token} categories={categories} />
             <NewProducts products={newProducts} addToCart={addToCart} />
           </Route>
         </Switch>

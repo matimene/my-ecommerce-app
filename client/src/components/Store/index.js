@@ -1,26 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { PRODUCTS } from "../../queries";
+import { useParams, useHistory } from "react-router-dom";
+import { PRODUCTS, FILTERED_PRODUCTS } from "../../queries";
 
 import {
   NextPageContainer,
   PanelItemContainer,
-  PanelCategory,
+  PanelStoreFilter,
   PanelHeader,
   StoreContainer,
   StorePanelContainer,
   StoreProducsContainer,
-  PanelFilterCategoryElement,
   NextPageButton,
+  PanelStoreFilterAll,
   StoreProductItem,
+  StoreContentContainer,
 } from "./StoreElements";
 
 const Store = ({ addToCart, categories, filters }) => {
-  const result = useQuery(PRODUCTS);
+  const filter = useParams();
+  const history = useHistory();
+  const [page, setPage] = useState(1);
+  const result = useQuery(FILTERED_PRODUCTS, {
+    variables: { filter: filter.filter },
+  });
 
   if (result.loading) {
-    return <div>loading...</div>;
+    return "Loading...";
+  } else if (result.error) {
+    return "There was an error :(";
   }
+
+  const changePage = (controller) => {
+    if (controller === "prev") {
+      setPage(page - 1);
+    }
+    if (controller === "next") {
+      setPage(page + 1);
+    }
+  };
+
+  const renderStoreContent = () => {
+    const showAccordingPageNumber = (array) => {
+      let first = (page - 1) * 12;
+      let last = page * 12;
+      return array.slice(first, last);
+    };
+
+    const productsToRender = showAccordingPageNumber(result.data.products);
+
+    let maxPages = Math.ceil(productsToRender.length / 12);
+
+    return (
+      <StoreContentContainer>
+        <StoreProducsContainer>
+          {productsToRender.map((p, i) => (
+            <StoreProductItem key={i} product={p} addToCart={addToCart} />
+          ))}
+        </StoreProducsContainer>
+        <NextPageContainer>
+          {page !== 1 && (
+            <NextPageButton onClick={() => changePage("prev")}>
+              {"<"}
+            </NextPageButton>
+          )}
+          <NextPageButton>{page}</NextPageButton>
+          {page === maxPages && (
+            <NextPageButton onClick={() => changePage("next")}>
+              {">"}
+            </NextPageButton>
+          )}
+        </NextPageContainer>
+      </StoreContentContainer>
+    );
+  };
 
   return (
     <>
@@ -29,32 +82,34 @@ const Store = ({ addToCart, categories, filters }) => {
           <PanelItemContainer>
             <PanelHeader>Menu</PanelHeader>
             {categories.map((c, i) => (
-              <PanelCategory key={i}>{c}</PanelCategory>
+              <PanelStoreFilter
+                onClick={() => history.push(`/store/${c}`)}
+                key={i}
+              >
+                {c}
+              </PanelStoreFilter>
             ))}
-            <PanelCategory>All</PanelCategory>
+            <PanelStoreFilterAll onClick={() => history.push(`/store`)}>
+              SHOW ALL
+            </PanelStoreFilterAll>
           </PanelItemContainer>
           <PanelItemContainer>
             <PanelHeader>Filter by</PanelHeader>
             {filters.map((f, i) => (
-              <PanelFilterCategoryElement
+              <PanelStoreFilter
                 key={i}
-                setFilter={console.log}
-                value={f}
-              />
+                onClick={() => history.push(`/store/${f}`)}
+              >
+                {f}
+              </PanelStoreFilter>
             ))}
+            <PanelStoreFilterAll onClick={() => history.push(`/store`)}>
+              SHOW ALL
+            </PanelStoreFilterAll>
           </PanelItemContainer>
         </StorePanelContainer>
-        <StoreProducsContainer>
-          {result.data.products.map((p, i) => (
-            <StoreProductItem key={i} product={p} addToCart={addToCart} />
-          ))}
-        </StoreProducsContainer>
+        {renderStoreContent()}
       </StoreContainer>
-      <NextPageContainer>
-        <NextPageButton>{"<"}</NextPageButton>
-        <NextPageButton>1</NextPageButton>
-        <NextPageButton>{">"}</NextPageButton>
-      </NextPageContainer>
     </>
   );
 };

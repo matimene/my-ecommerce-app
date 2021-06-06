@@ -7,6 +7,7 @@ import {
   NavStart,
   NavEnd,
   NavP,
+  NavImgLogo,
 } from "./NavbarElements";
 import Logo from "../../images/store-logo.jpg";
 import { FiShoppingCart } from "react-icons/fi";
@@ -23,7 +24,7 @@ const Navbar = ({ token, toggle, transparent }) => {
         )}
         <NavLogo>
           <NavLink to="/">
-            <img src={Logo} alt="store-logo" />
+            <NavImgLogo src={Logo} alt="store-logo" />
           </NavLink>
         </NavLogo>
         <NavEnd>

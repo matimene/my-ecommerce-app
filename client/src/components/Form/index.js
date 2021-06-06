@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "../../queries";
 import {
   Form,
   FormWrapper,
@@ -19,10 +21,20 @@ const FormUser = ({ login, signup }) => {
     login({ username, password });
   };
 
-  const handleSignup = (e) => {
+  const [createUser] = useMutation(CREATE_USER, {
+    onError: (error) => {
+      console.log(error.graphQLErrors[0].message);
+    },
+  });
+
+  const handleSignup = async (e) => {
     e.preventDefault();
+
     if (password === passwordCheck) {
-      signup({ name, username, password });
+      await createUser({ variables: { name, username, password } });
+      setUsername("");
+      setPassword("");
+      setIsNew(false);
     } else {
       window.alert("Passwords dont match");
     }
