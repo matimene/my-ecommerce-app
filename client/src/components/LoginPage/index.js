@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import Form from "../Form";
+import Form from "./Form";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
-import { LOGIN_USER, CREATE_USER } from "../../queries";
+import { LOGIN_USER } from "../../queries";
 
 import {
   LoginPageContainer,
@@ -29,7 +29,7 @@ const LoginPage = ({ token, setToken }) => {
       const token = resultLogin.data.loginUser.value;
       setToken(token);
       localStorage.setItem("myecommercestore-user-token", token);
-    }
+    } // eslint-disable-next-line
   }, [resultLogin.data]);
 
   const handleLogin = async ({ username, password }) => {

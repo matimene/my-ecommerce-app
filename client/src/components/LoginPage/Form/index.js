@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "../../queries";
+import { CREATE_USER } from "../../../queries";
 import {
   Form,
   FormWrapper,
@@ -9,7 +9,7 @@ import {
   FormTitle,
 } from "./FormElements";
 
-const FormUser = ({ login, signup }) => {
+const FormUser = ({ login }) => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

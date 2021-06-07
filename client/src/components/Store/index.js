@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { useParams, useHistory } from "react-router-dom";
-import { PRODUCTS, FILTERED_PRODUCTS } from "../../queries";
+import { FILTERED_PRODUCTS } from "../../queries";
 
 import {
   NextPageContainer,

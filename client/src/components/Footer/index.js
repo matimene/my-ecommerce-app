@@ -17,7 +17,7 @@ const Footer = () => {
       </FooterHeader>
       <FooterBody>
         <FooterLogo>
-          <img src={Logo} />
+          <img alt="store-logo" src={Logo} />
         </FooterLogo>
         <FooterP>Av. Siempre Viva 123</FooterP>
         <FooterP>Valencia, 46980</FooterP>

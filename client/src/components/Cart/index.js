@@ -1,27 +1,17 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { CREATE_ORDER, ME } from "../../queries";
 
-import {
-  CartContainer,
-  CartTable,
-  CartTableHeader,
-  CartTableCell,
-  CartTableCellTotalPrice,
-  CartDeleteItemButton,
-  PlaceOrderButton,
-  CartButtonContainer,
-  CartTableCellCentered,
-  CartTableHeaderCentered,
-  OrderPlaced,
-} from "./CartElements";
+import { CartContainer, OrderPlaced } from "./CartElements";
+import CartConfirm from "./CartConfirm";
+import AdressForm from "./AdressForm";
 
 const Cart = ({ cart, setCart }) => {
+  const [firstStepCompleted, setFirstStepCompleted] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const history = useHistory();
 
-  const { data, loading } = useQuery(ME);
   const [createOrder] = useMutation(CREATE_ORDER, {
     refetchQueries: [{ query: ME }],
     onError: (error) => {
@@ -29,21 +19,9 @@ const Cart = ({ cart, setCart }) => {
     },
   });
 
-  const getTotalPrice = () => {
-    const total = cart
-      .map((i) => i.quantity * i.price)
-      .reduce((a, b) => a + b, 0);
-    return Math.round(total * 100) / 100;
-  };
-
-  const placeOrder = async () => {
+  const placeOrder = async (values) => {
     if (cart.length !== 0) {
-      const { info } = data.me;
-      const { adress, name, phone } = info;
-
-      if (!adress || !name || !phone) {
-        return window.alert("COMPLETE YOUR DELIVERY INFO ON USER SETTINGS");
-      }
+      const { adress, name, phone, notes } = values;
 
       try {
         await createOrder({
@@ -52,6 +30,8 @@ const Cart = ({ cart, setCart }) => {
               id: product.id,
               quantity: product.quantity,
             })),
+            deliveryInfo: { name, adress, phone },
+            notes,
           },
         });
         setOrderPlaced(true);
@@ -64,63 +44,19 @@ const Cart = ({ cart, setCart }) => {
       }
     }
   };
-
-  const renderSecondStep = () => {};
-
-  const filterCart = (id) => {
-    setCart([...cart].filter((product) => product.id !== id));
-  };
-
   if (orderPlaced) return <OrderPlaced>¡Order sucessfully placed!</OrderPlaced>;
 
   return (
     <CartContainer>
-      <CartTable>
-        <thead>
-          <tr>
-            <CartTableHeader>name</CartTableHeader>
-            <CartTableHeaderCentered>price</CartTableHeaderCentered>
-            <CartTableHeaderCentered>qty</CartTableHeaderCentered>
-            <CartTableHeaderCentered>del</CartTableHeaderCentered>
-          </tr>
-        </thead>
-        <tbody>
-          {cart.length ? (
-            cart.map((p, i) => {
-              return (
-                <tr key={i}>
-                  <CartTableCell>{p.name}</CartTableCell>
-                  <CartTableCellCentered>{p.price} €</CartTableCellCentered>
-                  <CartTableCellCentered>{p.quantity} u.</CartTableCellCentered>
-                  <CartTableCell>
-                    <CartButtonContainer>
-                      <CartDeleteItemButton onClick={() => filterCart(p.id)}>
-                        x
-                      </CartDeleteItemButton>
-                    </CartButtonContainer>
-                  </CartTableCell>
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <CartTableCellTotalPrice colSpan="4">
-                Add items to your cart to start
-              </CartTableCellTotalPrice>
-            </tr>
-          )}
-          <tr>
-            <CartTableCellTotalPrice colSpan="4">
-              total: {getTotalPrice()} €
-            </CartTableCellTotalPrice>
-          </tr>
-        </tbody>
-      </CartTable>
-      <CartButtonContainer>
-        <PlaceOrderButton onClick={() => placeOrder()}>
-          Place order
-        </PlaceOrderButton>
-      </CartButtonContainer>
+      {!firstStepCompleted ? (
+        <CartConfirm
+          cart={cart}
+          setCart={setCart}
+          setCompleted={setFirstStepCompleted}
+        />
+      ) : (
+        <AdressForm handleSubmit={placeOrder} />
+      )}
     </CartContainer>
   );
 };
