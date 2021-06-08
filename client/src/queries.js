@@ -86,13 +86,15 @@ export const ME = gql`
           quantity
         }
       }
+      isAdmin
     }
   }
 `;
 
-export const UPDATE_ORDER_STATUS = gql`
-  mutation updateOrder($status: String!) {
-    updateOrder(status: $status) {
+export const ORDERS = gql`
+  query {
+    orders {
+      id
       status
       total
       items {
@@ -100,6 +102,21 @@ export const UPDATE_ORDER_STATUS = gql`
         price
         quantity
       }
+      deliveryInfo {
+        name
+        adress
+        phone
+      }
+      notes
+    }
+  }
+`;
+
+export const UPDATE_ORDER_STATUS = gql`
+  mutation updateOrder($id: ID!, $status: String!) {
+    updateOrder(id: $id, status: $status) {
+      id
+      status
     }
   }
 `;

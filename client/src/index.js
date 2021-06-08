@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
+import { onError } from "apollo-link-error";
+import { ApolloLink } from "apollo-link";
+
 import {
   ApolloClient,
   ApolloProvider,
@@ -8,6 +10,17 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "apollo-link-context";
+
+import App from "./components/App";
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    console.log("graphQLErrors", graphQLErrors);
+  }
+  if (networkError) {
+    console.log("networkError", networkError);
+  }
+});
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("myecommercestore-user-token");
@@ -21,9 +34,11 @@ const authLink = setContext((_, { headers }) => {
 
 const httpLink = new HttpLink({ uri: "http://localhost:4000" });
 
+const link = ApolloLink.from([authLink, errorLink, httpLink]);
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: authLink.concat(httpLink),
+  link: link,
 });
 
 ReactDOM.render(

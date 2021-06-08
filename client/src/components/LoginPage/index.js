@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import Form from "./Form";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import { LOGIN_USER } from "../../queries";
 
+import Form from "./Form";
 import {
   LoginPageContainer,
   LoginBarLink,
