@@ -5,7 +5,7 @@ import {
   NewProductsContainer,
   NewProductsWrapper,
 } from "./NewProductsElements";
-import { StoreProductItem } from "../Store/StoreElements";
+import { StoreProductItem } from "../StorePage/StoreElements";
 
 const NewProducts = ({ products, addToCart }) => {
   return (

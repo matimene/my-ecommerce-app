@@ -6,11 +6,17 @@ module.exports = async (_, args, { currentUser, models }) => {
   }
 
   try {
+    // newProducts = [skuCode]
     const { newProducts } = args.input;
     const store = await models.Store.find();
 
     newProducts.map(async (product) => {
-      return await models.Product.findOne({ skuCode: product });
+      const productBySkuCode = await models.Product.findOne({
+        skuCode: product,
+      });
+      if (!productBySkuCode)
+        throw new ApolloError("Cant find product with that sku code");
+      return productBySkuCode;
     });
 
     store.newProducts = newProducts;

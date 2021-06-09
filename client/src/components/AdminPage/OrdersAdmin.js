@@ -23,7 +23,6 @@ const OrdersAdmin = ({ page }) => {
   }
 
   const changeOrderStatus = async ({ id, status }) => {
-    console.log(id, status);
     try {
       await updateOrderStatus({
         variables: {

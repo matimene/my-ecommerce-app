@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 
+//CLIENT QUERIES
+
 export const PRODUCTS = gql`
   query {
     products {
@@ -61,6 +63,7 @@ export const STORE_CONFIG = gql`
         price
         imgUrl
         id
+        skuCode
       }
       categories
       filters
@@ -112,15 +115,6 @@ export const ORDERS = gql`
   }
 `;
 
-export const UPDATE_ORDER_STATUS = gql`
-  mutation updateOrder($id: ID!, $status: String!) {
-    updateOrder(id: $id, status: $status) {
-      id
-      status
-    }
-  }
-`;
-
 export const UPDATE_USER = gql`
   mutation updateUser(
     $password: String!
@@ -158,6 +152,53 @@ export const CREATE_ORDER = gql`
     ) {
       id
       total
+    }
+  }
+`;
+
+// ADMIN QUERIES
+
+export const UPDATE_ORDER_STATUS = gql`
+  mutation updateOrder($id: ID!, $status: String!) {
+    updateOrder(id: $id, status: $status) {
+      id
+      status
+    }
+  }
+`;
+
+export const SET_CATEGORIES = gql`
+  mutation setCategories($categories: [String!]!) {
+    setCategories(input: { categories: $categories }) {
+      id
+      status
+    }
+  }
+`;
+
+export const SET_FILTERS = gql`
+  mutation setFilters($filters: [String!]!) {
+    setFilters(input: { filters: $filters }) {
+      id
+      status
+    }
+  }
+`;
+
+export const SET_NEW_PRODUCTS = gql`
+  mutation setNewProducts($newProducts: [String!]!) {
+    setNewProducts(input: { newProducts: $newProducts }) {
+      id
+      status
+    }
+  }
+`;
+
+export const SET_DISCOUNT_CODES = gql`
+  mutation setDiscountCodes($discountCodes: [String]!) {
+    setDiscountCodes(input: { discountCodes: $discountCodes }) {
+      id
+      status
     }
   }
 `;
