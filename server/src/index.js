@@ -1,4 +1,4 @@
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer, PubSub } = require("apollo-server");
 const jwt = require("jsonwebtoken");
 const connectDb = require("./config/db");
 const typeDefs = require("./types");
@@ -6,6 +6,8 @@ const resolvers = require("./resolvers");
 const models = require("./models");
 
 connectDb();
+
+const pubsub = new PubSub();
 
 const server = new ApolloServer({
   typeDefs,
@@ -18,9 +20,9 @@ const server = new ApolloServer({
         process.env.JWT_SECRET
       );
       const currentUser = await models.User.findById(decodedToken.id);
-      return { currentUser, models };
+      return { currentUser, models, pubsub };
     }
-    return { models };
+    return { models, pubsub };
   },
 });
 

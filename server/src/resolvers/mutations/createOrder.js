@@ -1,7 +1,6 @@
 const { ApolloError, AuthenticationError } = require("apollo-server");
-const pubsub = require("../../config/pubsub");
 
-module.exports = async (_, args, { currentUser, models }) => {
+module.exports = async (_, args, { currentUser, models, pubsub }) => {
   if (!currentUser) {
     throw new AuthenticationError("not authenticated");
   }
