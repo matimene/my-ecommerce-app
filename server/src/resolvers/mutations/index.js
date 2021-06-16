@@ -1,5 +1,6 @@
 const createProduct = require("./createProduct");
 const updateProduct = require("./updateProduct");
+const disableProduct = require("./disableProduct");
 const createUser = require("./createUser");
 const loginUser = require("./loginUser");
 const updateUser = require("./updateUser");
@@ -24,4 +25,5 @@ module.exports = {
   setNewProducts,
   setCategories,
   createStoreConfig,
+  disableProduct,
 };

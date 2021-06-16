@@ -13,6 +13,7 @@ export const NavigationContainer = styled.div`
   justify-content: center;
   margin: auto;
   padding: 1rem 4rem;
+  text-align: center;
 
   @media screen and (max-width: 650px) {
     width: 100%;
@@ -49,7 +50,7 @@ export const OrdersContainer = styled.div`
 `;
 
 export const OrderCardContainer = styled.div`
-  max-width: 350px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   border-radius: 2;

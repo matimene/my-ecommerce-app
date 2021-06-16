@@ -12,6 +12,17 @@ module.exports = gql`
     disable: Boolean
   }
 
+  input EditProductInput {
+    name: String!
+    skuCode: String!
+    description: String!
+    category: String!
+    subCategories: [String]
+    imgUrl: String
+    price: Float!
+    disable: Boolean
+  }
+
   type Product {
     id: ID!
     name: String!
@@ -30,6 +41,7 @@ module.exports = gql`
 
   extend type Mutation {
     createProduct(input: ProductInput): Product!
-    updateProduct(id: ID!, input: ProductInput): Product!
+    updateProduct(id: String!, input: EditProductInput): Product!
+    disableProduct(id: String!, disable: Boolean!): Product!
   }
 `;

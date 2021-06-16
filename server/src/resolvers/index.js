@@ -1,5 +1,6 @@
 const mutations = require("./mutations");
 const queries = require("./queries");
+const subscriptions = require("./subscriptions");
 const orderSpecifics = require("./orderSpecifics");
 
 module.exports = {
@@ -8,6 +9,9 @@ module.exports = {
   },
   Query: {
     ...queries,
+  },
+  Subscription: {
+    ...subscriptions,
   },
   Order: {
     ...orderSpecifics,

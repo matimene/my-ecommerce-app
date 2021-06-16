@@ -1,6 +1,11 @@
 import React from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import { ORDERS, UPDATE_ORDER_STATUS } from "../../queries";
+import {
+  useQuery,
+  useMutation,
+  useSubscription,
+  useApolloClient,
+} from "@apollo/client";
+import { ORDERS, ORDER_ADDED, UPDATE_ORDER_STATUS } from "../../queries";
 import {
   OrdersContainer,
   OrderCardContainer,
@@ -15,6 +20,29 @@ const OrdersAdmin = ({ page }) => {
     refetchQueries: [{ query: ORDERS }],
     onError: (error) => {
       window.alert(error.graphQLErrors[0].message);
+    },
+  });
+  const client = useApolloClient();
+
+  const updateCacheWith = (addedOrder) => {
+    const includedIn = (set, object) =>
+      set.map((p) => p.id).includes(object.id);
+
+    const dataInStore = client.readQuery({ query: ORDERS });
+    if (!includedIn(dataInStore.orders, addedOrder)) {
+      client.writeQuery({
+        query: ORDERS,
+        data: { orders: dataInStore.orders.concat(addedOrder) },
+      });
+    }
+  };
+
+  useSubscription(ORDER_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedOrder = subscriptionData.data.orderAdded;
+      console.log("addedOrder", subscriptionData);
+      console.log("addedOrder", addedOrder);
+      updateCacheWith(addedOrder);
     },
   });
 
@@ -37,7 +65,7 @@ const OrdersAdmin = ({ page }) => {
 
   return (
     <OrdersContainer>
-      {resultOrders.data.orders.map((order, i) => {
+      {[...resultOrders.data.orders].reverse().map((order, i) => {
         return (
           <OrderCardContainer key={i} status={order.status}>
             <OrderStatus status={order.status}>{order.status}</OrderStatus>

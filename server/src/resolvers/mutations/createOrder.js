@@ -1,4 +1,5 @@
 const { ApolloError, AuthenticationError } = require("apollo-server");
+const pubsub = require("../../config/pubsub");
 
 module.exports = async (_, args, { currentUser, models }) => {
   if (!currentUser) {
@@ -40,7 +41,11 @@ module.exports = async (_, args, { currentUser, models }) => {
 
     await currentUser.save();
 
-    return order.populate("hasUser").execPopulate();
+    const savedOrder = order.populate("hasUser").execPopulate();
+
+    pubsub.publish("ORDER_ADDED", { orderAdded: savedOrder });
+
+    return savedOrder;
   } catch (e) {
     throw new ApolloError(e);
   }

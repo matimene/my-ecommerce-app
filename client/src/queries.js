@@ -18,6 +18,87 @@ export const PRODUCTS = gql`
   }
 `;
 
+export const CREATE_PRODUCT = gql`
+  mutation createProduct(
+    $name: String!
+    $imgUrl: String!
+    $category: String!
+    $subCategories: [String]!
+    $price: Float!
+    $description: String!
+    $skuCode: String!
+  ) {
+    createProduct(
+      input: {
+        name: $name
+        imgUrl: $imgUrl
+        category: $category
+        subCategories: $subCategories
+        price: $price
+        description: $description
+        skuCode: $skuCode
+      }
+    ) {
+      id
+      name
+      skuCode
+      description
+      category
+      subCategories
+      imgUrl
+      price
+      disable
+      id
+    }
+  }
+`;
+
+export const UPDATE_PRODUCT = gql`
+  mutation updateProduct(
+    $id: String!
+    $name: String!
+    $imgUrl: String!
+    $category: String!
+    $subCategories: [String]!
+    $price: Float!
+    $description: String!
+    $skuCode: String!
+  ) {
+    updateProduct(
+      id: $id
+      input: {
+        name: $name
+        imgUrl: $imgUrl
+        category: $category
+        subCategories: $subCategories
+        price: $price
+        description: $description
+        skuCode: $skuCode
+      }
+    ) {
+      id
+      name
+      skuCode
+      description
+      category
+      subCategories
+      imgUrl
+      price
+      disable
+      id
+    }
+  }
+`;
+
+export const DISABLE_PRODUCT = gql`
+  mutation disableProduct($id: String!, $disable: Boolean!) {
+    disableProduct(id: $id, disable: $disable) {
+      id
+      disable
+    }
+  }
+`;
+
 export const FILTERED_PRODUCTS = gql`
   query products($filter: String) {
     products(filter: $filter) {
@@ -156,6 +237,21 @@ export const CREATE_ORDER = gql`
   }
 `;
 
+export const DELETE_PRODUCT = gql`
+  mutation createOrder(
+    $items: [CartItemInput!]!
+    $deliveryInfo: AdressInput
+    $notes: String
+  ) {
+    createOrder(
+      input: { items: $items, deliveryInfo: $deliveryInfo, notes: $notes }
+    ) {
+      id
+      total
+    }
+  }
+`;
+
 // ADMIN QUERIES
 
 export const UPDATE_ORDER_STATUS = gql`
@@ -199,6 +295,27 @@ export const SET_DISCOUNT_CODES = gql`
     setDiscountCodes(input: { discountCodes: $discountCodes }) {
       id
       status
+    }
+  }
+`;
+
+export const ORDER_ADDED = gql`
+  subscription {
+    orderAdded {
+      id
+      status
+      total
+      items {
+        name
+        price
+        quantity
+      }
+      deliveryInfo {
+        name
+        adress
+        phone
+      }
+      notes
     }
   }
 `;

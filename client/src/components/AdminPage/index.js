@@ -6,6 +6,7 @@ import { AdminPageContainer } from "./AdminPageElements";
 import Navigation from "./Navigation";
 import OrdersAdmin from "./OrdersAdmin";
 import StoreConfig from "./StoreConfig";
+import StoreAdminProducts from "./StoreAdminProducts";
 
 const AdminPage = () => {
   const [page, setPage] = useState("orders");
@@ -22,7 +23,7 @@ const AdminPage = () => {
       case "storeConfig":
         return <StoreConfig page={page} />;
       case "products":
-        return null;
+        return <StoreAdminProducts page={page} />;
       default:
         return <OrdersAdmin page={page} />;
     }

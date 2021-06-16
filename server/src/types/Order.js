@@ -15,13 +15,6 @@ module.exports = gql`
     quantity: Int!
   }
 
-  # enum AllowedOrderStatus {
-  #   PENDING
-  #   SHIPPED
-  #   COMPLETED
-  #   CANCELED
-  # }
-
   type Order {
     id: ID!
     hasUser: User!
@@ -58,5 +51,9 @@ module.exports = gql`
   extend type Mutation {
     createOrder(input: CreateOrderInput): Order!
     updateOrder(id: ID!, status: String, notes: String): Order!
+  }
+
+  extend type Subscription {
+    orderAdded: Order!
   }
 `;
